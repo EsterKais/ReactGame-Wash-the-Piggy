@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const spotSchema = new Schema({
-  dirt: { type: String, required: true},
+  spotName: { type: String, required: true},
   cleaned: { type: Boolean, required: true, 'default': false },
 })
 
