@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import { history } from '../store'
 
+import FlatButton from 'material-ui/Flatbutton'
 
 
 
@@ -46,13 +48,20 @@ class UserForm extends Component {
 
           <div className='controls'>
             <button type='submit'>{ signUp ? 'Sign Up' : 'Sign In' }</button>
-            <button>{ signUp ? 'Sign In' : 'Sign Up' }</button>
+            <FlatButton label={ signUp ? 'Sign In' : 'Sign Up' } onClick={ this.linkTo.bind(this) } />
           </div>
         </form>
       </div>
     )
   }
+
+  linkTo() {
+    const { signUp } = this.props
+    const location = signUp? '/sign-in' : '/sign-up'
+    history.push(location)
+  }
 }
+
 
 
 export default UserForm
