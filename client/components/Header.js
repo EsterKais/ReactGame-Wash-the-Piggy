@@ -46,7 +46,7 @@ class Header extends Component {
     return (
 
       <AppBar
-        title="MemoryGame"
+        title="Wash the Piggy!"
         iconElementRight={ this.renderMenu() }
       />
     )
