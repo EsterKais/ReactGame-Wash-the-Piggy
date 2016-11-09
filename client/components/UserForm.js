@@ -1,58 +1,138 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
+import { history } from '../store'
+import Paper from 'material-ui/Paper'
+import TextField from 'material-ui/TextField'
+import RaisedButton from 'material-ui/RaisedButton'
+import FlatButton from 'material-ui/FlatButton'
+import './UserForm.sass'
 
-
-
+const textFieldStyle = {
+  width: '96%'
+}
 
 class UserForm extends Component {
+  constructor() {
+    super()
+    this.state = {
+      passwordError: false
+    }
+  }
 
   submitForm(event) {
     event.preventDefault()
 
     const { name, email, password, passwordConfirmation } = this.refs
 
-    console.log('name: ', name.value )
-    console.log('email: ', email.value )
-    console.log('password: ', password.value )
-    console.log('passwordConfirmation: ', passwordConfirmation.value )
+    console.log('name: ', (name && name.getValue()))
+    console.log('email: ', (email && email.getValue()))
+    console.log('password: ', (password && password.getValue()))
+    console.log('passwordConfirmation: ', (passwordConfirmation && passwordConfirmation.getValue()))
 
+    const formData = {
+      name: name && name.getValue(),
+      email: email.getValue(),
+      password: password.getValue()
+    }
 
+    this.props.onSubmit(formData)
   }
 
-  render(){
+  checkPasswords() {
+    if (!this.props.signUp) return
+
+    const { password, passwordConfirmation } = this.refs
+
+    if (password.getValue() === passwordConfirmation.getValue()) {
+      this.setState({
+        passwordError: false
+      })
+
+      return
+    }
+
+    this.setState({
+      passwordError: true
+    })
+  }
+
+  switchMode() {
     const { signUp } = this.props
+    const location = signUp ? '/sign-in' : '/sign-up'
+    history.push(location)
+  }
+
+  render() {
+    const { signUp, errors } = this.props
 
     return (
-      <div className="user-form">
+      <Paper className="user-form" zDepth={3}>
         <form onSubmit={ this.submitForm.bind(this) }>
-          <h1>{ signUp ? 'Sign up' : 'Sign in' } to Wash this Piggy </h1>
+          <h1>{ signUp ? 'Sign Up' : 'Sign In' }</h1>
 
           { signUp ?
-            <div className='input'>
-              <input type="name" ref="name" placeholder="What's your name?" />
-            </div> : null }  <br />
+            <div className="input">
+              <TextField
+                style={ textFieldStyle }
+                ref="name"
+                hintText="Name"
+                floatingLabelText="Your name"
+                type="text"
+              />
+            </div> : null }
 
-          <div className='input'>
-            <input type="email" ref="email" placeholder="What's your email?" />
-          </div><br />
+          <div className="input">
+            <TextField
+              style={ textFieldStyle }
+              ref="email"
+              hintText="Email"
+              floatingLabelText="Email"
+              type="email"
+              errorText={ errors.email }
+            />
+          </div>
 
-          <div className='input'>
-            <input type='password' ref="password" placeholder="Set a password" />
-          </div><br />
+          <div className="input">
+            <TextField
+              style={ textFieldStyle }
+              ref="password"
+              hintText="Password"
+              floatingLabelText="Password"
+              type="password"
+            />
+          </div>
 
           { signUp ?
-            <div className='input'>
-              <input type='password' ref="passwordConfirmation" placeholder="Confirm your password" />
-            </div> : null } <br />
+            <div className="input">
+              <TextField
+                style={ textFieldStyle }
+                ref="passwordConfirmation"
+                hintText="Password Confirmation"
+                floatingLabelText="Confirm your password"
+                type="password"
+                onChange={ this.checkPasswords.bind(this) }
+                errorText={ this.state.passwordError ? 'Passwords don\'t match!' : null }
+              />
+            </div> : null }
 
-          <div className='controls'>
-            <button type='submit'>{ signUp ? 'Sign Up' : 'Sign In' }</button>
-            <button>{ signUp ? 'Sign In' : 'Sign Up' }</button>
+          <div className="controls">
+            <RaisedButton style={{ float: 'right' }} type="submit" disabled={ this.state.passwordError } label={ signUp ? 'Sign Up' : 'Sign In' } primary={true}  />
+            <FlatButton label={ signUp ? 'Sign In' : 'Sign Up' } onClick={ this.switchMode.bind(this) } />
           </div>
         </form>
-      </div>
+      </Paper>
     )
   }
 }
 
+UserForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  signUp: PropTypes.bool,
+  errors: PropTypes.object.isRequired,
+}
 
-export default UserForm
+const mapStateToProps = (state) => {
+  return { errors: state.formErrors }
+}
+
+export default connect(mapStateToProps)(UserForm)

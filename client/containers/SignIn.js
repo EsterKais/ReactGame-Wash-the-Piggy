@@ -1,11 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
 import UserForm from '../components/UserForm'
+import signInUser from '../actions/sign-in-user'
 
 class SignIn extends Component {
   render() {
-    return <UserForm />
+    const { signInUser } = this.props
+    return <UserForm onSubmit={ signInUser } />
   }
 }
 
-
-export default SignIn
+export default connect(null, { signInUser })(SignIn)
