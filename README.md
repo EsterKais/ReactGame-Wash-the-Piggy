@@ -1,3 +1,31 @@
+# PiggyWash!
+
+## A game built in React.js
+
+After weeks of learning Ruby on Rails, we got a taste of JavaScript. After a week of training, we were assigned a task of creating a game in React.js to show off what we have learned. The out come was Piggywash!
+
+## Idea of the game
+* There are two players and the game will start once Player2 joins.
+* When Player2 has joined, the initial countdown of 3 seconds will start, at the end of the countdown the game will begind and the spots will appear on the piggy. 
+* Players will then have 5 seconds to simultaneously click on the spots to clean them. Once a spot has been clicked, the other player cannot click that spot anymore and the point goes to the player who clicked it.
+* At the end of 5 seconds, the points are counted and the winner is displayed - together with a very happy piggy.gif.
+
+## Quick look at the game:
+![gameimage](http://res.cloudinary.com/dfc7k24vb/image/upload/v1479557460/Screen_Shot_2016-11-19_at_13.10.15_zhppln.png "Piggywash Screenshot")
+
+For a full visual of the game, have a look here:
+https://drive.google.com/open?id=0ByKMF9fz2TRqWWlMZ3hRZjhZZUk
+
+## Learnings
+* Functional programming vs. Object Oriented Programming
+* Practice JavaScript and get used to the syntax.
+* How to navigate through React.js.
+* The (re)use of components.
+* Redux Store.
+* React Router.
+* Testing in React.js.
+* What are and how to use Websockets.
+
 # FeathersJS + React + Webpack
 
 ## About
